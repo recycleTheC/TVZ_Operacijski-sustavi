@@ -1,0 +1,2 @@
+- datoteka od 100MB:
+dd if=/dev/zero of=100mb.file bs=1024 count=102400
