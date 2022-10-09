@@ -2,34 +2,47 @@
 #include<stdlib.h>
 
 int main(int argc, char* argv[]){
-	if(argc < 3){
+	
+	if(argc < 4){
 		printf("Nije upisan dovoljan broj parametara!\n");
 		exit(-1);
 	}
-
-	FILE* src = fopen(argv[1], "rb");
-	if(src == NULL) {
-		printf("Izvorisna datoteka ne postoji!\n");
+	
+	int bufferSize = -1;
+	
+	if(sscanf(argv[1], "%d", &bufferSize) != 1){
+		printf("Nije upisana ispravna velicina buffera!\n");
 		exit(-2);
 	}
+	
+	if(bufferSize < 1){
+		printf("Nije upisana ispravna velicina buffera!\n");
+		exit(-2);
+	}
+	
+	char* buffer = (char*)calloc(bufferSize, 1);
 
-	FILE* dst = fopen(argv[2], "wb");
-	if(dst == NULL){
-		printf("Odredisna datoteka ne postoji!\n");
+	FILE* src = fopen(argv[2], "rb");
+	if(src == NULL) {
+		printf("Izvorisna datoteka ne postoji!\n");
 		exit(-3);
 	}
 
+	FILE* dst = fopen(argv[3], "wb");
+	if(dst == NULL){
+		printf("Odredisna datoteka ne postoji!\n");
+		exit(-4);
+	}
+
 	fseek(src, 0, SEEK_END);
-	int size = ftell(src);
+	unsigned long size = ftell(src);
 	fseek(src, 0, SEEK_SET);
 
 	printf("Velicina ishodisne datoteke: %d\n", size);
-	printf("Citam bajt po bajt...\n");	
+	printf("Zapocinjem kopiranje datoteka koristeci buffer velicine %d bajta...\n", bufferSize);	
 
-	for(int i = 0; i < size; i++) {
-		char data;
-		fread(&data, sizeof(data), 1, src);
-		fwrite(&data, sizeof(data), 1, dst);
+	while(fread(buffer, bufferSize, 1, src) != 0){
+		fwrite(buffer, bufferSize, 1, dst);
 	}
 
 	fclose(src);
