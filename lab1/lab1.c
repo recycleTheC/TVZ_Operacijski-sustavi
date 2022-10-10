@@ -21,24 +21,27 @@ int main(int argc, char* argv[]){
 	}
 	
 	char* buffer = (char*)calloc(bufferSize, 1);
+	if(buffer == NULL){
+		printf("Greska pri alociranju buffera!\n");
+	}
 
 	FILE* src = fopen(argv[2], "rb");
 	if(src == NULL) {
-		printf("Izvorisna datoteka ne postoji!\n");
+		printf("Izvorisna datoteka se ne moze otvoriti za citanje!\n");
 		exit(-3);
 	}
 
 	FILE* dst = fopen(argv[3], "wb");
 	if(dst == NULL){
-		printf("Odredisna datoteka ne postoji!\n");
+		printf("Odredisna datoteka se ne moze otvoriti za pisanje!\n");
 		exit(-4);
 	}
 
-	fseek(src, 0, SEEK_END);
+	/*fseek(src, 0, SEEK_END);
 	unsigned long size = ftell(src);
 	fseek(src, 0, SEEK_SET);
-
-	printf("Velicina ishodisne datoteke: %d\n", size);
+	printf("Velicina ishodisne datoteke: %d bajta\n", size);*/
+	
 	printf("Zapocinjem kopiranje datoteka koristeci buffer velicine %d bajta...\n", bufferSize);	
 
 	while(fread(buffer, bufferSize, 1, src) != 0){
