@@ -14,6 +14,7 @@ int main(int argc, char* argv[]){
 	
 	if(argc < 4){
 		printf("Nije upisan dovoljan broj parametara!\n");
+		printf("Sintaksa: naredba <buffer> <ulaz> <izlaz>\n");
 		exit(-1);
 	}
 	
