@@ -1,2 +1,5 @@
 - datoteka od 100MB:
-dd if=/dev/random of=100mb.file bs=1024 count=102400
+dd if=/dev/urandom of=100mb.file bs=1024 count=102400
+
+- datoteka od 1GB:
+dd if=/dev/urandom of=1gb.file bs=1024 count 102400
