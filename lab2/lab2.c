@@ -10,6 +10,7 @@ int main(int argc, char* argv[]){
 	
 	if(argc < 2){
 		printf("Neispravan poziv naredbe!\n");
+		printf("%s <broj_child_procesa>\n", argv[0]);
 		exit(-1);
 	}
 	
