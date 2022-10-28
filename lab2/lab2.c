@@ -14,7 +14,7 @@ int main(int argc, char* argv[]){
 		exit(-1);
 	}
 	
-	int broj_child_procesa = -1;
+	int broj_child_procesa = 1;
 	
 	if(sscanf(argv[1], "%d", &broj_child_procesa) != 1){
 		printf("Neispravan unos! Morate unijeti broj procesa djeteta!\n");
@@ -30,12 +30,13 @@ int main(int argc, char* argv[]){
 				exit(-1);
 			case 0:
 				printf("Dijete #%d\n", i+1);
-				exit(0);
+				exit(EXIT_SUCCESS);
 			default:
 				printf("Roditelj #%d\n", i+1);
 				wait(NULL);
+				break;
 		}
 	}
 	
-	return 0;
+	exit(EXIT_SUCCESS);
 }
