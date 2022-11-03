@@ -29,8 +29,21 @@ int main(int argc, char* argv[]){
 		exit(-2);
 	}
 	
-	int redni_broj = 0, broj_neocekivanih = 0;
+	char tip[2][16] = {"Roditelj", "Dijete"};
+	int redni_broj = 0, broj_neocekivanih = 0, paritet = 0;
 	Zapis zapis, prethodni;
+	
+	fscanf(datoteka, "%s #%d", zapis.tip, &zapis.redni_broj);
+	
+	if(strcmp(zapis.tip, tip[0]) == 0) paritet = 0;
+	else if (strcmp(zapis.tip, tip[1]) == 0) paritet = 1;
+	else {
+		printf("Nesto nije u redu s ulaznom datotekom! Napraviti rucnu provjeru...\n");
+		exit(-3);
+	}
+	
+	prethodni = zapis;
+	redni_broj++;
 	
 	while(fscanf(datoteka, "%s #%d", zapis.tip, &zapis.redni_broj) == 2){
 		redni_broj++;
@@ -38,7 +51,7 @@ int main(int argc, char* argv[]){
 		if(redni_broj % 2 == 0) {
 			int greska = 0;
 		
-			if(strcmp(zapis.tip, prethodni.tip) == 0){
+			if(strcmp(zapis.tip, tip[paritet]) == 0){
 				greska++;
 				broj_neocekivanih++;
 			}
@@ -49,12 +62,11 @@ int main(int argc, char* argv[]){
 		prethodni = zapis;
 	}
 	
-	if(redni_broj > 0 && redni_broj % 2 == 0 && broj_neocekivanih % 2 == 0){
+	if(redni_broj % 2 == 0){
 		redni_broj /= 2;
-		broj_neocekivanih /= 2;
 	}
 	else {
-		printf("Nesto nije u redu s ulaznom datotekom! Napraviti rucnu provjeru...\n");
+		printf("Nesto nije u redu s ulaznom datotekom! (%d/%d) Napraviti rucnu provjeru...\n", broj_neocekivanih, redni_broj);
 		exit(-3);
 	}
 	

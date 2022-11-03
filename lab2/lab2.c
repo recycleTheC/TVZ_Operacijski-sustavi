@@ -33,6 +33,7 @@ int main(int argc, char* argv[]){
 				exit(EXIT_SUCCESS);
 			default:
 				printf("Roditelj #%d\n", i+1);
+				usleep(3000);
 				wait(NULL);
 				break;
 		}
