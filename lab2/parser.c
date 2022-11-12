@@ -2,18 +2,31 @@
 #include<string.h>
 #include<stdlib.h>
 
+#define RED "\x1B[31m"
+#define RESET "\x1B[0m"
+
 typedef struct {
 	char tip[16];
 	int redni_broj;
 } Zapis;
 
+int predvidiTip(int paritet, int redni_broj){
+	if(redni_broj % 2 != 0) {
+		if(paritet == 0) return 1;
+		else return 0;
+	}
+	else return paritet;
+}
+
 int main(int argc, char* argv[]){
 	
 	if(argc < 2){
-		printf("Neispravan poziv naredbe!\n");
-		printf("%s <ulazna_datoteka>\n", argv[0]);
+		printf(RED "Neispravan poziv naredbe!\n" RESET);
+		printf("%s <ulazna_datoteka> <debug?>\n", argv[0]);
 		exit(-1);
 	}
+	
+	int debug = argc == 3 ? strcmp(argv[2], "debug") == 0 ? 1 : 0 : 0;
 	
 	char putanja[64] = {0};
 	
@@ -28,6 +41,8 @@ int main(int argc, char* argv[]){
 		printf("Nije moguce otvoriti datoteku '%s'\n", putanja);
 		exit(-2);
 	}
+	
+	printf("Citanje datoteke '%s' ...\n", putanja);
 	
 	char tip[2][16] = {"Roditelj", "Dijete"};
 	int redni_broj = 0, broj_neocekivanih = 0, paritet = 0;
@@ -47,22 +62,17 @@ int main(int argc, char* argv[]){
 	
 	while(fscanf(datoteka, "%s #%d", zapis.tip, &zapis.redni_broj) == 2){
 		redni_broj++;
-		
-		if(redni_broj % 2 == 0) {
-			int greska = 0;
-		
-			if(strcmp(zapis.tip, tip[paritet]) == 0){
-				greska++;
-				broj_neocekivanih++;
-			}
-			
-			if(greska) printf("Neocekivani zapis (%d): %s #%d\n", redni_broj, zapis.tip, zapis.redni_broj);
+
+		if(strcmp(zapis.tip, tip[predvidiTip(paritet, redni_broj)]) == 0){
+			broj_neocekivanih++;
+			if(debug) printf("Neocekivani zapis (%d): %s #%d\n", redni_broj, zapis.tip, zapis.redni_broj);
 		}
 
 		prethodni = zapis;
 	}
 	
-	if(redni_broj % 2 == 0){
+	if(redni_broj % 2 == 0 && broj_neocekivanih % 2 == 0){
+		broj_neocekivanih /= 2;
 		redni_broj /= 2;
 	}
 	else {
@@ -74,7 +84,9 @@ int main(int argc, char* argv[]){
 	printf("Broj izvodjenja: %d\n", redni_broj);
 	
 	if(broj_neocekivanih > 0){
-		printf("Odstupanje: %.2f\%\n", broj_neocekivanih * 100.0 / redni_broj);
+		double odstupanje = (double)broj_neocekivanih * 100 / redni_broj;
+		printf(RED "\nOdstupanje: %.3lf\%\n" RESET, odstupanje);
+		printf("Točnost: %.3lf\%\n", 100.00 - odstupanje);
 	}
 	
 	fclose(datoteka);

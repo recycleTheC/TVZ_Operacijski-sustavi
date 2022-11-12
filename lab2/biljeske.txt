@@ -1,0 +1,10 @@
+- 1. zadatak:
+
+Izvršna datoteka je manja od 100.000 bajta jer se memorija potrebna za 
+izvršavanje programa alocira u radnoj memoriji prilikom izvršavanja
+programa, a ne u izvršnoj datoteci. 
+
+Nakon pokretanja, program koristi 2464 kb radne memorije.
+
+- 2. zadatak
+
