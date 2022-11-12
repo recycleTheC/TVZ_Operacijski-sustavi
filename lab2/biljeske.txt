@@ -1,10 +1,30 @@
 - 1. zadatak:
 
-Izvršna datoteka je manja od 100.000 bajta jer se memorija potrebna za 
-izvršavanje programa alocira u radnoj memoriji prilikom izvršavanja
-programa, a ne u izvršnoj datoteci. 
-
-Nakon pokretanja, program koristi 2464 kb radne memorije.
+Veličina izvršne datoteke je 16.816 bajta. Izvršna datoteka je manja od
+100.000 bajta jer se memorija potrebna za izvršavanje programa alocira u
+radnoj memoriji u trenutku izvršavanja programa, a ne u izvršnoj datoteci. 
+Za vrijeme izvršavanja, program koristi 2464 kB radne memorije.
 
 - 2. zadatak
 
+Korišteni Linux kerneli: 5.10.0-18-amd64, 4.9.0-7-686-pae
+Procesor: Intel i3-1115G4 @ 2.933GHz (1 jezgra dodijeljena VM-u)
+
+1. pokušaj:
+
+Sa defaultnim postavkama niti sa 1.000.000 procesa djece nije se događalo
+odstupanje u izvršavanju programa. Uvijek se prvo izvršavao proces
+roditelja, i zatim proces djeteta.
+
+2. pokušaj:
+
+Postavio sam vrijednost varijable child_runs_first u 1:
+>> sysctl kernel.sched_child_runs_first=1 
+
+U većini mjerenja ostupanja su relativno malena, slično kao u ispitivanju
+koje je navedeno u knjizi Linux Programming Interface (0.3% odstupanja).
+
+U manjem broju mjerenja se dogodila situacija da se prvo izvršavao proces
+djeteta i tijekom mjerenja se redoslijed izvršavanja promjenio. Kako je 
+to trajalo neko vrijeme, ta promjena je rezultirala velikim odstupanjima
+u tim mjerenjima.
