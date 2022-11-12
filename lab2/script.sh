@@ -12,7 +12,7 @@ if [ ! -d "output" ]; then
 	mkdir output
 fi
 
-for i in 10 100 1000 10000 100000 #1000000
+for i in 10 100 1000 10000 100000 1000000
 do
 echo
 echo === Mjerenje za $i procesa djece ===
