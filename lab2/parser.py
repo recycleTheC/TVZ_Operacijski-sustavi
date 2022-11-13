@@ -1,4 +1,4 @@
-import subprocess, sys
+import subprocess, sys, os
 
 class Zapis:
 	def __init__(self, tip:str, redni_broj:int):
@@ -55,6 +55,9 @@ if len(sys.argv) >= 2 and sys.argv[1].isnumeric():
 else:
 	ponavljanje = 1
 	
+if os.path.exists("output") == False:
+	os.mkdir("output")
+	
 mjerenja = []
 	
 for i in range(0,ponavljanje):
@@ -91,12 +94,16 @@ for i in range(0,ponavljanje):
 			mjerenja.append(mjerenje)
 
 		except FileNotFoundError:
-			print("Nije moguće otvoriti datoteku!");
+			print("Nije moguće otvoriti datoteku!")
+		except ValueError as ex:
+			print(ex.message)
 
 mjerenja.sort(key=lambda mjerenje: mjerenje.velicina)
 
+print("\n[{:*^28}]".format(" Sažetak mjerenja "))
+
 for velicina in [10, 100, 1000, 10000, 100000]:
-	print("\n{:=^30}".format(" {} procesa djece ".format(velicina)))
+	print("{:=^30}".format(" {} procesa djece ".format(velicina)))
 	print("{:=^20}{:=^10}".format(" odstupanja ", " točnost "))
 	print("{:^10}{:^10}{:^10}".format(" broj ", " % ", " % "))
 	

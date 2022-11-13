@@ -1,6 +1,7 @@
 # Files
 
 *.file
+output/
 
 # Prerequisites
 *.d
