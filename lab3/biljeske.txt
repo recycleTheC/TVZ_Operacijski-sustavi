@@ -1,0 +1,49 @@
+Proces 'systemd' (1), stanje: 1
+- vrijeme koristenja CPU-a (user): 32000000
+- vrijeme koristenja CPU-a (system): 560000000
+- roditej 'swapper/0' (0), stanje: 0,
+
+Proces 'ext4-rsv-conver' (169), stanje: 1026
+- vrijeme koristenja CPU-a (user): 0
+- vrijeme koristenja CPU-a (system): 0
+- roditej 'kthreadd' (2), stanje: 1,
+
+Proces 'systemd-journal' (207), stanje: 1
+- vrijeme koristenja CPU-a (user): 36000000
+- vrijeme koristenja CPU-a (system): 60000000
+- roditej 'systemd' (1), stanje: 1,
+
+Proces 'cryptd' (284), stanje: 1026
+- vrijeme koristenja CPU-a (user): 0
+- vrijeme koristenja CPU-a (system): 0
+- roditej 'kthreadd' (2), stanje: 1,
+
+Proces 'cron' (401), stanje: 1
+- vrijeme koristenja CPU-a (user): 0
+- vrijeme koristenja CPU-a (system): 0
+- roditej 'systemd' (1), stanje: 1,
+
+Proces 'gnome-terminal' (1289), stanje: 1
+- vrijeme koristenja CPU-a (user): 8000000
+- vrijeme koristenja CPU-a (system): 4000000
+- roditej 'systemd' (1), stanje: 1,
+
+Proces 'gnome-terminal-' (1293), stanje: 1
+- vrijeme koristenja CPU-a (user): 72000000
+- vrijeme koristenja CPU-a (system): 40000000
+- roditej 'systemd' (1), stanje: 1,
+
+Proces 'bash' (1301), stanje: 1
+- vrijeme koristenja CPU-a (user): 4000000
+- vrijeme koristenja CPU-a (system): 4000000
+- roditej 'gnome-terminal-' (1293), stanje: 1,
+
+Proces 'sudo' (1307), stanje: 1
+- vrijeme koristenja CPU-a (user): 16000000
+- vrijeme koristenja CPU-a (system): 4000000
+- roditej 'bash' (1301), stanje: 1
+
+Proces 'insmod' (1308), stanje: 0
+- vrijeme koristenja CPU-a (user): 0
+- vrijeme koristenja CPU-a (system): 4000000
+- roditej 'sudo' (1307), stanje: 1,
