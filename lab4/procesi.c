@@ -29,10 +29,8 @@ int main(int argc, char* argv[]){
 				exit(2);
 			case 0:
 				zbroj++;
-				printf("Zbroj u djetetu: %d\n", zbroj);
-				exit(1);
+				exit(0);
 			default:
-				printf("Zbroj u roditelju: %d\n", zbroj);
 				wait(NULL);
 				break;
 		}

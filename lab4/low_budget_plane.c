@@ -53,6 +53,18 @@ void* check_in(void* args){
 	pthread_exit(NULL);
 }
 
+void provjeri_rezervacije(int* popunjeno, int* nepopunjeno){
+	*popunjeno = 0;
+	*nepopunjeno = 0;
+	
+	for(int i = 0; i < 10; i++){
+		for(int j = 0; j < 10; j++){
+			if(mjesta[i][j] == 0) (*nepopunjeno)++;
+			else (*popunjeno)++;
+		}
+	}
+}
+
 int main() {
 	
 	srand(time(NULL));
@@ -95,6 +107,12 @@ int main() {
 	}
 	
 	printf("\n");
+	
+	int popunjeno = 0, nepopunjeno = 0;
+	provjeri_rezervacije(&popunjeno, &nepopunjeno);
+	
+	printf("Popunjeno mjesta: %d\n", popunjeno);
+	printf("Nepopunjeno mjesta: %d\n", nepopunjeno);
 
     free(dretve);
 
