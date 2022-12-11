@@ -23,14 +23,33 @@ def obradi_mjerenja(izvor, rezultat):
 		sistemsko_vrijeme = float(minute) * 60 + float(sekunde) + float(stotinke) / 100
 		
 		rezultat.append(Mjerenje(int(redni), int(velicina), realno_vrijeme, user_vrijeme, sistemsko_vrijeme))
+
+def prosjek(mjerenja:list):
+	real = 0.0
+	user = 0.0
+	sys = 0.0
+	n = len(mjerenja)
 	
+	for x in mjerenja:
+		real += x.real
+		user += x.user
+		sys += x.sys
+	
+	return (real/n, user/n, sys/n)
 
-mjerenja_procesi = []
-mjerenja_dretve = []
-
-procesi = [redak.strip() for redak in open("output/mjerenje-procesi.file") if redak != "\n"]
-dretve = [redak.strip() for redak in open("output/mjerenje-dretve.file") if redak != "\n"]
-
+def ispis_mjerenja(mjerenja:list, velicina:int):
+	print("{:=^10}{:=^10}{:=^10}".format(" real ", " user ", " sys "))
+	
+	niz = [x for x in mjerenja if x.size == velicina]
+	niz.sort(key=lambda x: x.real)
+	
+	for mjerenje in niz:
+		print("{:^10.3f}{:^10.3f}{:^10.3f}".format(mjerenje.real, mjerenje.user, mjerenje.sys))
+	print("="*30)
+	real, user, sys = prosjek(niz)
+	print("{:^10.3f}{:^10.3f}{:^10.3f}".format(real, user, sys))
+	print("="*30)
+	
 mjerenja_procesi = []
 mjerenja_dretve = []
 
@@ -39,6 +58,14 @@ dretve = [redak.strip() for redak in open("output/mjerenje-dretve.file") if reda
 
 obradi_mjerenja(procesi, mjerenja_procesi)
 obradi_mjerenja(dretve, mjerenja_dretve)
+
+for velicina in [1, 10, 100, 1000, 10000, 100000]:
+	print("{:=^30}".format(" {} procesa ".format(velicina)))
+	ispis_mjerenja(mjerenja_procesi, velicina)
+
+for velicina in [1, 10, 100, 1000, 10000, 100000]:
+	print("{:=^30}".format(" {} dretvi ".format(velicina)))
+	ispis_mjerenja(mjerenja_dretve, velicina)
 
 # crtanje real time
 
