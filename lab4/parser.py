@@ -62,7 +62,7 @@ obradi_mjerenja(dretve, mjerenja_dretve)
 for velicina in [1, 10, 100, 1000, 10000, 100000]:
 	print("{:=^30}".format(" {} procesa ".format(velicina)))
 	ispis_mjerenja(mjerenja_procesi, velicina)
-
+print()
 for velicina in [1, 10, 100, 1000, 10000, 100000]:
 	print("{:=^30}".format(" {} dretvi ".format(velicina)))
 	ispis_mjerenja(mjerenja_dretve, velicina)
