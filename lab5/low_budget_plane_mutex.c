@@ -27,8 +27,10 @@ typedef struct {
 
 void* check_in(void* args){
 	arguments* argumenti = (arguments*)args;
+	long index = argumenti->index;
 	
 	if(argumenti->kasnjenje) sleep(1);
+	printf("%ld. dretva se pokrece\n", index + 1);
 	
 	// login na sustav
 	login();
@@ -40,19 +42,19 @@ void* check_in(void* args){
 	long* mjesta = dohvati_polje();
 	
 	// odabir mjesta
-	long index = argumenti->index;
 	int odabrano_mjesto = rng(0,99);
 	
 	// u 50% slucajeva korisnik odbija ponudjeno mjesto
 	if(index % 2 == 0) odabrano_mjesto = rng(0,99);
 	
-	printf("Odabrano mjesto: %ld -> %d\n", index + 1, odabrano_mjesto);
+	printf("%ld. dretva odabire %d. mjesto\n", index + 1, odabrano_mjesto + 1);
 	
 	sleep(rng(1,2));
 	*(mjesta + odabrano_mjesto) = index + 1;
 	
 	pthread_mutex_unlock(&mutex);
 	
+	printf("%ld. dretva zavrsava s radom\n", index + 1);
 	free(args);
 	pthread_exit(NULL);
 }
