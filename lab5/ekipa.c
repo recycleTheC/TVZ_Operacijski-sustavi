@@ -296,7 +296,6 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 		
-	
 	srand(time(NULL));
 	pthread_mutex_init(&mutex, NULL);
 
@@ -320,7 +319,6 @@ int main(int argc, char* argv[]) {
 		printf("%s - kozumacija: %d, odbijanje: %d, prazan stol: %d\n", statistike[i].ime, statistike[i].konzumacija, statistike[i].odbijanje, statistike[i].prazan_stol);
 	}
 	
-
 	pthread_mutex_destroy(&mutex);
 	
     return 0;

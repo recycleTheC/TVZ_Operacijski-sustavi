@@ -5,7 +5,7 @@
 #include<pthread.h>
 
 long mjesta[10][10] = {{0}};
-pthread_mutex_t mutex;
+pthread_mutex_t mutex[100];
 
 int rng(int min, int max){
 	return (rand() % (max - min + 1)) + min;
@@ -35,24 +35,34 @@ void* check_in(void* args){
 	// login na sustav
 	login();
 	
-	// kritični odsječak 
-	pthread_mutex_lock(&mutex);
-	
 	// dohvat mjesta
 	long* mjesta = dohvati_polje();
 	
-	// odabir mjesta
-	int odabrano_mjesto = rng(0,99);
+	int index_odabranog_mjesta = -1;
 	
-	// u 50% slucajeva korisnik odbija ponudjeno mjesto
-	if(index % 2 == 0) odabrano_mjesto = rng(0,99);
+	while(1){
+		// odabir mjesta
+		index_odabranog_mjesta = rng(0,99);
+		long* odabrano_mjesto = mjesta + index_odabranog_mjesta;
+		
+		// u 50% slucajeva korisnik odbija ponudjeno mjesto
+		if(index % 2 == 0) index_odabranog_mjesta = rng(0,99);
+		
+		// kritični odsječak 
+		pthread_mutex_lock(&mutex[index_odabranog_mjesta]);
+		
+		if(*odabrano_mjesto == 0){
+			*odabrano_mjesto = index + 1;
+			pthread_mutex_unlock(&mutex[index_odabranog_mjesta]);
+			break;
+		}
+		
+		pthread_mutex_unlock(&mutex[index_odabranog_mjesta]);
+	}
 	
-	printf("%ld. dretva odabire %d. mjesto\n", index + 1, odabrano_mjesto + 1);
+	printf("%ld. dretva odabire %d. mjesto\n", index + 1, index_odabranog_mjesta + 1);
 	
 	sleep(rng(1,2));
-	*(mjesta + odabrano_mjesto) = index + 1;
-	
-	pthread_mutex_unlock(&mutex);
 	
 	printf("%ld. dretva zavrsava s radom\n", index + 1);
 	free(args);
@@ -77,12 +87,12 @@ int main() {
     pthread_t dretve[100];
 	
 	srand(time(NULL));
-	pthread_mutex_init(&mutex, NULL);
 
 	int kasnije_pokretanje = rng(0,99);
 	printf("Kasnije ce se pokrenuti %d dretvi!\n", kasnije_pokretanje);
 
     for(long i = 0; i < broj_dretvi; i++) {
+		pthread_mutex_init(&mutex[i], NULL);
 		arguments* arg = (arguments*)malloc(sizeof(arguments));
 		
 		arg->index = i;
@@ -117,7 +127,9 @@ int main() {
 	printf("Popunjeno mjesta: %d\n", popunjeno);
 	printf("Nepopunjeno mjesta: %d\n", nepopunjeno);
 
-	pthread_mutex_destroy(&mutex);
+	for(long i = 0; i < broj_dretvi; i++) {
+		pthread_mutex_destroy(&mutex[i]);
+    }
 
     return 0;
 }

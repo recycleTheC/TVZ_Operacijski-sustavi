@@ -26,6 +26,7 @@ typedef struct {
 
 void* check_in(void* args){
 	arguments* argumenti = (arguments*)args;
+	long index = argumenti->index;
 	
 	if(argumenti->kasnjenje) sleep(1);
 	
@@ -34,19 +35,25 @@ void* check_in(void* args){
 	
 	// dohvat mjesta
 	long* mjesta = dohvati_polje();
+	int index_odabranog_mjesta = 0;
 	
-	// odabir mjesta
-	long index = argumenti->index;
-	int odabrano_mjesto = rng(0,99);
+	while(1){
+		// odabir mjesta
+		index_odabranog_mjesta = rng(0,99);
+		long* odabrano_mjesto = mjesta + index_odabranog_mjesta;
+		
+		// u 50% slucajeva korisnik odbija ponudjeno mjesto
+		if(index % 2 == 0) index_odabranog_mjesta = rng(0,99);
+
+		if(*odabrano_mjesto == 0){
+			*odabrano_mjesto = index + 1;
+			break;
+		}
+	}
 	
-	// u 50% slucajeva korisnik odbija ponudjeno mjesto
-	if(index % 2 == 0) odabrano_mjesto = rng(0,99);
-	
-	printf("Odabrano mjesto: %ld -> %d\n", index + 1, odabrano_mjesto);
+	printf("%ld. dretva odabire %d. mjesto\n", index + 1, index_odabranog_mjesta + 1);
 	
 	sleep(rng(1,2));
-	
-	*(mjesta + odabrano_mjesto) = index + 1;
 	
 	free(args);
 	
